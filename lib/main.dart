@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:bulkpal_mobile/core/theme/app_theme.dart';
 import 'package:bulkpal_mobile/features/dashboard/views/home_screen.dart';
 import 'package:bulkpal_mobile/features/dashboard/view_models/dashboard_view_model.dart';
 
@@ -17,6 +18,10 @@ class BulkPalApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomeScreen());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+      theme: AppTheme.darkTheme,
+    );
   }
 }
