@@ -7,15 +7,21 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true, //decreases the shadows
       scaffoldBackgroundColor: AppColours.primaryColour,
-      cardColor: AppColours.cardColour,
+      cardColor: AppColours.secondaryAccent,
       textTheme: GoogleFonts.poppinsTextTheme().apply(
         bodyColor: AppColours.textColour,
         displayColor: Colors.transparent,
       ),
 
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: true,
+        titleTextStyle: GoogleFonts.poppins(
+          color: AppColours.textColour,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
