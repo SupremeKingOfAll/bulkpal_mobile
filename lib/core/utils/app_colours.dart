@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 
 class AppColours {
-  static const primaryColour = Color(0xFF000000);
+  static const primaryColour = Color(0xFF02040A);
+
+  static const iconColour = Color(0xFF000000);
 
   static const cardColour = Color(0xFF006064);
 

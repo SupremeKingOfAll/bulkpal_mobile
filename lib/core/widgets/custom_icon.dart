@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import '../utils/app_colours.dart';
 
 class CustomIcons extends StatelessWidget {
-  const CustomIcons({required this.myIcon, super.key});
+  const CustomIcons({
+    required this.containerWidth,
+    required this.containerHeight,
+    required this.myIcon,
+    required this.iconSize,
+    super.key,
+  });
 
   final IconData myIcon;
+  final double containerHeight;
+  final double containerWidth;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 75,
-      width: 75,
+      height: containerHeight,
+      width: containerWidth,
       decoration: BoxDecoration(
         color: AppColours.cardColour,
         borderRadius: BorderRadius.circular(100),
@@ -20,21 +29,19 @@ class CustomIcons extends StatelessWidget {
         ),
       ),
       child: Container(
-        height: 4,
-        width: 4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           gradient: RadialGradient(
             colors: [
-              AppColours.primaryColour,
-              AppColours.primaryColour,
+              AppColours.iconColour,
+              AppColours.iconColour,
               AppColours.cardColour,
             ],
             radius: 1,
             stops: [0.28, 0.15, 0.6],
           ),
         ),
-        child: Icon(myIcon, color: AppColours.secondaryAccent),
+        child: Icon(myIcon, color: AppColours.secondaryAccent, size: iconSize),
       ),
     );
   }

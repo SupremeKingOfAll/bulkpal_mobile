@@ -23,7 +23,8 @@ class BulkPalApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: TestingDashboard(), //DashboardView(),
+      home: DashboardView(),
+      //TestingDashboard(),
       theme: AppTheme.darkTheme,
     );
   }

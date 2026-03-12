@@ -7,18 +7,31 @@ class StatCard extends StatelessWidget {
     required this.height,
     required this.width,
     required this.title,
-    required this.value,
-    required this.subTitle,
-    this.icon,
+    this.value,
+    this.subTitle,
+    required this.icon,
+    required this.titleSize,
+    this.valueSize,
+    this.subTitleSize,
+    required this.iconContainerHeight,
+    required this.iconContainerWidth,
+    required this.iconSize,
     super.key,
   });
 
   final String title;
-  final String value;
-  final String subTitle;
-  final IconData? icon;
+  final String? value;
+  final String? subTitle;
+  final IconData icon;
   final double height;
   final double width;
+  final double titleSize;
+  final double? valueSize;
+  final double? subTitleSize;
+  final double iconContainerHeight;
+  final double iconContainerWidth;
+  final double iconSize;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,33 +41,38 @@ class StatCard extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white.withOpacity(0.09)),
         borderRadius: BorderRadius.circular(30),
-        color: AppColours.cardColour.withOpacity(0.1),
+        color: AppColours.cardColour.withOpacity(0.15),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: const TextStyle(color: AppColours.textSecondary),
+              Text(title, style: TextStyle(fontSize: titleSize)),
+              CustomIcons(
+                myIcon: icon,
+                containerHeight: iconContainerHeight,
+                containerWidth: iconContainerWidth,
+                iconSize: iconSize,
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              color: AppColours.textColour,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subTitle,
-            style: const TextStyle(color: AppColours.textSecondary),
+          Row(
+            children: [
+              if (value != null)
+                Text(
+                  value!,
+                  style: TextStyle(
+                    fontSize: valueSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              const SizedBox(width: 10),
+              if (subTitle != null)
+                Text(subTitle!, style: TextStyle(fontSize: subTitleSize)),
+            ],
           ),
         ],
       ),
