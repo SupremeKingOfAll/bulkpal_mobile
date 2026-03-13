@@ -1,3 +1,4 @@
+import 'package:bulkpal_mobile/features/bottom_navigation_bar/view_models/navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bulkpal_mobile/core/theme/app_theme.dart';
@@ -23,7 +24,7 @@ class BulkPalApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: DashboardView(),
+      home: NavigationController(),
       //TestingDashboard(),
       theme: AppTheme.darkTheme,
     );

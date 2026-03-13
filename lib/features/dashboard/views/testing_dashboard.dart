@@ -20,7 +20,6 @@ class _TestingDashboardState extends State<TestingDashboard> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomButton(text: "Start"),
             SizedBox(height: 20),
             CustomIcons(
               myIcon: Icons.people,

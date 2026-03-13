@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:bulkpal_mobile/core/utils/app_colours.dart';
+import 'package:flutter/material.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({required this.title, super.key});

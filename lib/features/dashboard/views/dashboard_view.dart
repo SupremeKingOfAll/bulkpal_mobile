@@ -1,7 +1,9 @@
+import 'package:bulkpal_mobile/features/dashboard/view_models/dashboard_view_model.dart';
+import 'package:bulkpal_mobile/features/dashboard/widgets/stat_hero_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:bulkpal_mobile/core/widgets/section_title.dart';
+import 'package:bulkpal_mobile/features/bottom_navigation_bar/views/custom_bottom_navbar.dart';
 import '../widgets/stat_card.dart';
+import 'package:provider/provider.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -11,10 +13,18 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  int CurrentPage = 0;
+
+  void OnSelected(int index) {
+    setState(() {
+      CurrentPage = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<DashBoardViewModel>();
     return Scaffold(
-      appBar: AppBar(title: Text("Home Dashboard")),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
         scrollDirection: Axis.vertical,
@@ -22,19 +32,18 @@ class _DashboardViewState extends State<DashboardView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 10),
-            StatCard(
+            StatCardHeroCard(
               height: 300,
               width: 300,
               title: "Calories",
-              titleSize: 38,
               icon: Icons.no_meals,
-              value: "1250",
-              valueSize: 30,
-              subTitle: "/ 3000 Kcal",
-              subTitleSize: 20,
-              iconContainerHeight: 70,
-              iconContainerWidth: 70,
-              iconSize: 28,
+              value: "${vm.caloriesConsumed.toString()} /",
+              valueSize: 20,
+              titleSize: 20,
+              subTitle: vm.calorieTarget.toString(),
+              iconContainerHeight: 60,
+              iconContainerWidth: 60,
+              iconSize: 35,
             ),
             SizedBox(height: 20),
             Row(
@@ -42,12 +51,12 @@ class _DashboardViewState extends State<DashboardView> {
                 StatCard(
                   height: 150,
                   width: 180,
-                  title: "7",
-                  titleSize: 13,
+                  title: vm.streakDays.toString(),
+                  titleSize: 25,
                   icon: Icons.animation,
-                  valueSize: 10,
+                  valueSize: 30,
                   subTitle: "Day Streak",
-                  subTitleSize: 10,
+                  subTitleSize: 17,
                   iconContainerHeight: 30,
                   iconContainerWidth: 30,
                   iconSize: 20,
@@ -56,11 +65,10 @@ class _DashboardViewState extends State<DashboardView> {
                 StatCard(
                   height: 150,
                   width: 180,
-                  title: "82%",
-                  titleSize: 13,
+                  title: vm.adherenceScore.toString(),
+                  titleSize: 30,
                   icon: Icons.timeline,
-                  valueSize: 10,
-                  subTitleSize: 10,
+                  subTitleSize: 17,
                   subTitle: "Adherence",
                   iconContainerHeight: 30,
                   iconContainerWidth: 30,
@@ -71,10 +79,10 @@ class _DashboardViewState extends State<DashboardView> {
             SizedBox(height: 16),
 
             StatCard(
-              height: 200,
-              width: 200,
-              title: "+320",
-              titleSize: 13,
+              height: 300,
+              width: 300,
+              title: "${vm.surplusCalories} +",
+              titleSize: 20,
               icon: Icons.emoji_food_beverage,
               iconContainerHeight: 30,
               iconContainerWidth: 30,

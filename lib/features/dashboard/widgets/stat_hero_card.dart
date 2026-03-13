@@ -1,10 +1,12 @@
 import 'package:bulkpal_mobile/core/utils/app_colours.dart';
 import 'package:bulkpal_mobile/core/widgets/custom_icon.dart';
+import 'package:bulkpal_mobile/features/dashboard/view_models/dashboard_view_model.dart';
 import 'package:bulkpal_mobile/features/progress/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class StatCard extends StatelessWidget {
-  const StatCard({
+class StatCardHeroCard extends StatelessWidget {
+  const StatCardHeroCard({
     required this.height,
     required this.width,
     required this.title,
@@ -35,6 +37,7 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<DashBoardViewModel>();
     return Container(
       padding: EdgeInsets.all(20),
       width: width,
@@ -61,6 +64,15 @@ class StatCard extends StatelessWidget {
             ],
           ),
 
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(
+              value: 1250 / 3000,
+              minHeight: 10,
+              backgroundColor: Colors.white.withOpacity(0.08),
+              valueColor: AlwaysStoppedAnimation(AppColours.secondaryAccent),
+            ),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -74,7 +86,22 @@ class StatCard extends StatelessWidget {
                 ),
               const SizedBox(width: 10),
               if (subTitle != null)
-                Text(subTitle!, style: TextStyle(fontSize: subTitleSize)),
+                Text(
+                  subTitle!,
+                  style: TextStyle(
+                    fontSize: subTitleSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              const SizedBox(width: 10),
+              Text(
+                "${((1250 / 3000) * 100).toStringAsFixed(0)}% complete",
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ],
