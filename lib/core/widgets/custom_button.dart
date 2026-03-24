@@ -26,7 +26,9 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isSelected ? AppColours.cardColour : Color(0xFF02040A),
+        color: isSelected
+            ? AppColours.secondaryAccent
+            : Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(32),
         border: Border.all(
           color: Color(0xFF00E5FF).withOpacity(0.01),
@@ -44,7 +46,7 @@ class CustomButton extends StatelessWidget {
             colors: isSelected
                 ? [
                     AppColours.primaryColour,
-                    AppColours.primaryColour,
+                    AppColours.surfaceHighlight,
                     AppColours.cardColour,
                   ]
                 : [Color(0xFF02040A), Color(0xFF02040A), Color(0xFF02040A)],

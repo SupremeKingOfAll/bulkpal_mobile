@@ -23,7 +23,7 @@ class CustomBottomNavbar extends StatelessWidget {
       child: NavigationBar(
         selectedIndex: currentPage,
         onDestinationSelected: OnDestinationSelected,
-        backgroundColor: AppColours.primaryColour,
+        backgroundColor: AppColours.iconBackground,
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         destinations: [
           NavigationDestination(
@@ -50,11 +50,11 @@ class CustomBottomNavbar extends StatelessWidget {
             icon: CustomButton(
               ContainerWidth: 30,
               ContainerHeight: 30,
-              MyIcon: Icons.person,
+              MyIcon: Icons.fastfood,
               IconSize: 15,
               isSelected: currentPage == 2,
             ),
-            label: "Profile",
+            label: "Meals",
           ),
           NavigationDestination(
             icon: CustomButton(

@@ -7,4 +7,16 @@ class DashBoardViewModel with ChangeNotifier {
   int streakDays = 7;
   int adherenceScore = 82;
   int surplusCalories = 320;
+
+  int ProgressPercentage() {
+    return ((caloriesConsumed / calorieTarget) * 100).round();
+  }
+
+  int RemainingCalories() {
+    return calorieTarget - caloriesConsumed;
+  }
+
+  double ProgressValue() {
+    return caloriesConsumed / calorieTarget;
+  }
 }

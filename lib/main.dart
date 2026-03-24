@@ -1,4 +1,5 @@
 import 'package:bulkpal_mobile/features/bottom_navigation_bar/view_models/navigation_controller.dart';
+import 'package:bulkpal_mobile/features/meals/view_models/meal_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bulkpal_mobile/core/theme/app_theme.dart';
@@ -11,6 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DashBoardViewModel()),
+        ChangeNotifierProvider(create: (context) => MealModelView()),
       ],
       child: BulkPalApp(),
     ),

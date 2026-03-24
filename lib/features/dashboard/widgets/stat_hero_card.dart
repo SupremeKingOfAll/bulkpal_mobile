@@ -1,7 +1,6 @@
 import 'package:bulkpal_mobile/core/utils/app_colours.dart';
 import 'package:bulkpal_mobile/core/widgets/custom_icon.dart';
 import 'package:bulkpal_mobile/features/dashboard/view_models/dashboard_view_model.dart';
-import 'package:bulkpal_mobile/features/progress/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +44,7 @@ class StatCardHeroCard extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white.withOpacity(0.09)),
         borderRadius: BorderRadius.circular(30),
-        color: AppColours.cardColour.withOpacity(0.15),
+        color: AppColours.cardColour,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,17 +62,7 @@ class StatCardHeroCard extends StatelessWidget {
               ),
             ],
           ),
-
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: LinearProgressIndicator(
-              value: 1250 / 3000,
-              minHeight: 10,
-              backgroundColor: Colors.white.withOpacity(0.08),
-              valueColor: AlwaysStoppedAnimation(AppColours.secondaryAccent),
-            ),
-          ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 2),
           Row(
             children: [
               if (value != null)
@@ -94,18 +83,30 @@ class StatCardHeroCard extends StatelessWidget {
                   ),
                 ),
               const SizedBox(width: 10),
-              Text(
-                "${((1250 / 3000) * 100).toStringAsFixed(0)}% complete",
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ],
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(
+              value: vm.ProgressValue(),
+              minHeight: 10,
+              backgroundColor: AppColours.textColour.withOpacity(0.08),
+              valueColor: AlwaysStoppedAnimation(AppColours.secondaryAccent),
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            "${vm.ProgressPercentage()}% complete",
+            style: TextStyle(
+              color: AppColours.successColour,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
     );
   }
 }
+
+//"${vm.calorieTarget - vm.caloriesConsumed} calories remaining",

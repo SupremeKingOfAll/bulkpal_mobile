@@ -42,8 +42,8 @@ class CustomIcons extends StatelessWidget {
           gradient: RadialGradient(
             colors: (showCorrectGradient ?? false)
                 ? [
-                    AppColours.iconColour,
-                    AppColours.iconColour,
+                    AppColours.iconBackground,
+                    AppColours.iconBackground,
                     AppColours.cardColour,
                   ]
                 : [Color(0xFF02040A), Color(0xFF02040A), Color(0xFF02040A)],

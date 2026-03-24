@@ -42,7 +42,7 @@ class StatCard extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white.withOpacity(0.09)),
         borderRadius: BorderRadius.circular(30),
-        color: AppColours.cardColour.withOpacity(0.15),
+        color: AppColours.cardColour,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
