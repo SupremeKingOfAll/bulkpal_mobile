@@ -1,6 +1,5 @@
 import 'package:bulkpal_mobile/core/utils/app_colours.dart';
 import 'package:bulkpal_mobile/core/widgets/custom_icon.dart';
-import 'package:bulkpal_mobile/features/progress/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
 class StatCard extends StatelessWidget {
