@@ -1,14 +1,14 @@
 import 'package:bulkpal_mobile/core/utils/app_colours.dart';
 import 'package:bulkpal_mobile/features/bottom_navigation_bar/views/custom_bottom_navbar.dart';
-import 'package:bulkpal_mobile/features/dashboard/view_models/dashboard_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:bulkpal_mobile/features/Profile/widgets/profile_page.dart';
 import 'package:bulkpal_mobile/features/dashboard/views/dashboard_view.dart';
 import 'package:bulkpal_mobile/features/settings/views/settings_page.dart';
 import 'package:bulkpal_mobile/features/progress/views/progress_page.dart';
 import 'package:bulkpal_mobile/features/meals/views/meals_page.dart';
+import 'package:bulkpal_mobile/features/meals/view_models/meal_log_view_model.dart';
+import 'package:bulkpal_mobile/services/auth_service.dart';
 
 class NavigationController extends StatefulWidget {
   const NavigationController({super.key});
@@ -27,7 +27,22 @@ class _NavigationControllerState extends State<NavigationController> {
     SettingsPage(),
   ];
 
-  final List<String> Titles = ["Dashboard", "progress", "Meals", "Settings"];
+  final List<String> Titles = ["Dashboard", "Progress", "Meals", "Settings"];
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bool DidJustRegister = AuthService().ConsumeDidJustRegister();
+
+      if (DidJustRegister && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Account created successfully')),
+        );
+      }
+    });
+  }
 
   void OnDestinationSelected(int index) {
     setState(() {
@@ -37,6 +52,8 @@ class _NavigationControllerState extends State<NavigationController> {
 
   Widget _BuildAppBarTitle() {
     if (currentPage == 2) {
+      final MealLogVm = context.watch<MealLogViewModel>();
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -47,7 +64,7 @@ class _NavigationControllerState extends State<NavigationController> {
                 "Meals",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 30,
                 width: 40,
@@ -67,36 +84,45 @@ class _NavigationControllerState extends State<NavigationController> {
           const SizedBox(height: 2),
           Row(
             children: [
-              Text(
+              const Text(
                 "Today: ",
                 style: TextStyle(fontSize: 14, color: AppColours.textSecondary),
               ),
-
               Text(
-                NumberFormat(
-                  "#,###",
-                ).format(context.watch<DashBoardViewModel>().caloriesConsumed),
-                style: TextStyle(color: AppColours.navActive, fontSize: 14),
+                NumberFormat("#,###").format(MealLogVm.TotalCalories),
+                style: const TextStyle(
+                  color: AppColours.navActive,
+                  fontSize: 14,
+                ),
               ),
-
-              Text(
-                " • 4 meals",
+              const Text(
+                " kcal",
                 style: TextStyle(fontSize: 14, color: AppColours.textSecondary),
+              ),
+              Text(
+                " • ${MealLogVm.LoggedMeals.length} meals",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColours.textSecondary,
+                ),
               ),
             ],
           ),
         ],
       );
     }
-    //
+
     return Text(Titles[currentPage]);
   }
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.watch<DashBoardViewModel>();
     return Scaffold(
-      appBar: AppBar(centerTitle: false, title: _BuildAppBarTitle()),
+      appBar: AppBar(
+        centerTitle: false,
+        toolbarHeight: currentPage == 2 ? 80 : 56,
+        title: _BuildAppBarTitle(),
+      ),
       body: Pages[currentPage],
       bottomNavigationBar: CustomBottomNavbar(
         currentPage: currentPage,

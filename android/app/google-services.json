@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "120839154227",
+    "project_id": "bulk-pal",
+    "storage_bucket": "bulk-pal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120839154227:android:ccd78c6c24988409841146",
+        "android_client_info": {
+          "package_name": "com.example.bulkpal_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARKNlo6NV-soUS4x7pN-UZANK8A_l3MVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,30 +1,30 @@
 import 'package:bulkpal_mobile/core/utils/app_colours.dart';
-import 'package:bulkpal_mobile/core/widgets/custom_icon.dart';
-import 'package:bulkpal_mobile/core/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class MealCards extends StatelessWidget {
   const MealCards({
-    required this.myIcon,
-    required this.title,
-    required this.subTitle,
-    required this.colour,
-    required this.calories,
+    required this.MyIcon,
+    required this.Title,
+    required this.SubTitle,
+    required this.Colour,
+    required this.TrailingValue,
+    required this.TrailingLabel,
     super.key,
   });
 
-  final IconData myIcon;
-  final String title;
-  final String subTitle;
-  final Color colour;
-  final double calories;
+  final IconData MyIcon;
+  final String Title;
+  final String SubTitle;
+  final Color Colour;
+  final String TrailingValue;
+  final String TrailingLabel;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       width: 400,
-      height: 100,
+      height: 110,
       decoration: BoxDecoration(
         color: AppColours.cardColour,
         borderRadius: BorderRadius.circular(15),
@@ -35,43 +35,57 @@ class MealCards extends StatelessWidget {
             height: 60,
             width: 60,
             decoration: BoxDecoration(
-              color: colour.withOpacity(0.2),
+              color: Colour.withOpacity(0.2),
               borderRadius: BorderRadius.circular(15),
             ),
-            child: Container(
-              height: 80,
-              width: 80,
-              child: Icon(myIcon, color: colour),
+            child: Icon(MyIcon, color: Colour),
+          ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColours.textColour,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  SubTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColours.textColour.withOpacity(0.5),
+                  ),
+                ),
+              ],
             ),
           ),
-          SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomText(
-                customText: title,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              CustomText(
-                customText: subTitle,
-                myColour: AppColours.textColour.withOpacity(0.5),
-              ),
-            ],
-          ),
-          Spacer(),
+          const SizedBox(width: 12),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              CustomText(
-                customText: calories.toString(),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+              Text(
+                TrailingValue,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColours.textColour,
+                ),
               ),
               Text(
-                'KCAL',
+                TrailingLabel,
                 style: TextStyle(
                   fontSize: 12,
                   color: AppColours.textColour.withOpacity(0.5),

@@ -1,14 +1,16 @@
-import 'package:bulkpal_mobile/models/meal_model.dart';
+import 'package:bulkpal_mobile/models/meal_model_api.dart';
 import 'package:bulkpal_mobile/repository/meal_repository.dart';
-import 'package:bulkpal_mobile/services/meal_firestore_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bulkpal_mobile/services/meal_api_service.dart';
 import 'package:flutter/material.dart';
 
-class MealModelView extends ChangeNotifier {
-  final MealRepository _mealRepository = MealRepository(MealFirestoreService());
+class MealViewModel extends ChangeNotifier {
+  final MealRepository _mealRepository = MealRepository(MealApiService());
 
-  List<MealModel> _meals = [];
-  List<MealModel> get Meals => _meals;
+  List<MealApiModel> _apiMeals = [];
+  List<MealApiModel> get ApiMeals => _apiMeals;
+
+  List<String> _categories = ['All'];
+  List<String> get Categories => _categories;
 
   bool _isLoading = false;
   bool get IsLoading => _isLoading;
@@ -17,11 +19,30 @@ class MealModelView extends ChangeNotifier {
   String get ErrorMessage => _errorMessage;
 
   Future<void> LoadMeals() async {
-    final User? CurrentUser = FirebaseAuth.instance.currentUser;
+    _isLoading = true;
+    _errorMessage = '';
+    notifyListeners();
 
-    if (CurrentUser == null) {
-      _errorMessage = 'No user is signed in.';
-      notifyListeners();
+    try {
+      final List<String> LoadedCategories =
+          await _mealRepository.GetCategories();
+      _categories = ['All', ...LoadedCategories];
+
+      _apiMeals = await _mealRepository.SearchMeals('chicken');
+    } catch (Error) {
+      _errorMessage = Error.toString();
+      _apiMeals = [];
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> SearchMeals(String Query) async {
+    final String CleanQuery = Query.trim();
+
+    if (CleanQuery.isEmpty) {
+      await LoadMeals();
       return;
     }
 
@@ -30,70 +51,39 @@ class MealModelView extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _meals = await _mealRepository.GetMealsForUser(CurrentUser.uid);
+      _apiMeals = await _mealRepository.SearchMeals(CleanQuery);
     } catch (Error) {
       _errorMessage = Error.toString();
+      _apiMeals = [];
     }
 
     _isLoading = false;
     notifyListeners();
   }
 
-  Future<void> AddMeal({
-    required String Name,
-    required int Calories,
-    required int Protein,
-    required int Carbs,
-    required int Fats,
-    String Source = 'manual',
-  }) async {
-    final User? CurrentUser = FirebaseAuth.instance.currentUser;
-
-    if (CurrentUser == null) {
-      _errorMessage = 'No user is signed in.';
-      notifyListeners();
+  Future<void> LoadMealsByCategory(String Category) async {
+    if (Category == 'All') {
+      await LoadMeals();
       return;
     }
 
-    final MealModel NewMeal = MealModel(
-      Id: DateTime.now().millisecondsSinceEpoch.toString(),
-      Name: Name,
-      Calories: Calories,
-      Protein: Protein,
-      Carbs: Carbs,
-      Fats: Fats,
-      Date: DateTime.now(),
-      UserId: CurrentUser.uid,
-      Source: Source,
-    );
+    _isLoading = true;
+    _errorMessage = '';
+    notifyListeners();
 
     try {
-      await _mealRepository.AddMeal(NewMeal);
-      _meals.insert(0, NewMeal);
-      notifyListeners();
+      _apiMeals = await _mealRepository.GetMealsByCategory(Category);
     } catch (Error) {
       _errorMessage = Error.toString();
-      notifyListeners();
+      _apiMeals = [];
     }
+
+    _isLoading = false;
+    notifyListeners();
   }
 
   Future<void> RemoveMeal(String MealId) async {
-    final User? CurrentUser = FirebaseAuth.instance.currentUser;
-
-    if (CurrentUser == null) {
-      _errorMessage = 'No user is signed in.';
-      notifyListeners();
-      return;
-    }
-
-    try {
-      await _mealRepository.RemoveMeal(UserId: CurrentUser.uid, MealId: MealId);
-
-      _meals.removeWhere((Meal) => Meal.Id == MealId);
-      notifyListeners();
-    } catch (Error) {
-      _errorMessage = Error.toString();
-      notifyListeners();
-    }
+    _apiMeals.removeWhere((Meal) => Meal.Id == MealId);
+    notifyListeners();
   }
 }

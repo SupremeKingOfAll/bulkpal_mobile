@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
 class DashBoardViewModel with ChangeNotifier {
-  // dummy data
-  int caloriesConsumed = 2450;
   int calorieTarget = 3000;
   int streakDays = 7;
   int adherenceScore = 82;
-  int surplusCalories = 320;
 
-  int ProgressPercentage() {
-    return ((caloriesConsumed / calorieTarget) * 100).round();
+  double ProgressValue(int TotalCalories) {
+    if (calorieTarget <= 0) {
+      return 0.0;
+    }
+
+    return (TotalCalories / calorieTarget).clamp(0.0, 1.0);
   }
 
-  int RemainingCalories() {
-    return calorieTarget - caloriesConsumed;
+  int ProgressPercentage(int TotalCalories) {
+    return (ProgressValue(TotalCalories) * 100).round();
   }
 
-  double ProgressValue() {
-    return caloriesConsumed / calorieTarget;
+  int RemainingCalories(int TotalCalories) {
+    final int Remaining = calorieTarget - TotalCalories;
+    return Remaining < 0 ? 0 : Remaining;
+  }
+
+  int CalorieDifference(int TotalCalories) {
+    return TotalCalories - calorieTarget;
   }
 }

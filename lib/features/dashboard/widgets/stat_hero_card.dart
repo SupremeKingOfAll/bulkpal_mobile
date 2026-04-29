@@ -18,6 +18,7 @@ class StatCardHeroCard extends StatelessWidget {
     required this.iconContainerHeight,
     required this.iconContainerWidth,
     required this.iconSize,
+    required this.totalCalories,
     super.key,
   });
 
@@ -33,12 +34,14 @@ class StatCardHeroCard extends StatelessWidget {
   final double iconContainerHeight;
   final double iconContainerWidth;
   final double iconSize;
+  final int totalCalories;
 
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<DashBoardViewModel>();
+
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       width: width,
       height: height,
       decoration: BoxDecoration(
@@ -47,12 +50,18 @@ class StatCardHeroCard extends StatelessWidget {
         color: AppColours.cardColour,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: TextStyle(fontSize: titleSize)),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: titleSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               CustomIcons(
                 myIcon: icon,
                 containerHeight: iconContainerHeight,
@@ -62,8 +71,11 @@ class StatCardHeroCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 2),
+
+          const Spacer(),
+
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (value != null)
                 Text(
@@ -73,33 +85,41 @@ class StatCardHeroCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               if (subTitle != null)
-                Text(
-                  subTitle!,
-                  style: TextStyle(
-                    fontSize: subTitleSize,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    subTitle!,
+                    style: TextStyle(
+                      fontSize: subTitleSize ?? 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColours.textSecondary,
+                    ),
                   ),
                 ),
-              const SizedBox(width: 10),
             ],
           ),
+
+          const SizedBox(height: 12),
+
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: LinearProgressIndicator(
-              value: vm.ProgressValue(),
-              minHeight: 10,
+              value: vm.ProgressValue(totalCalories),
+              minHeight: 8,
               backgroundColor: AppColours.textColour.withOpacity(0.08),
               valueColor: AlwaysStoppedAnimation(AppColours.secondaryAccent),
             ),
           ),
-          SizedBox(height: 12),
+
+          const SizedBox(height: 8),
+
           Text(
-            "${vm.ProgressPercentage()}% complete",
-            style: TextStyle(
-              color: AppColours.successColour,
-              fontSize: 14,
+            "${vm.ProgressPercentage(totalCalories)}% of daily target",
+            style: const TextStyle(
+              color: AppColours.accentColour,
+              fontSize: 12,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -108,5 +128,3 @@ class StatCardHeroCard extends StatelessWidget {
     );
   }
 }
-
-//"${vm.calorieTarget - vm.caloriesConsumed} calories remaining",

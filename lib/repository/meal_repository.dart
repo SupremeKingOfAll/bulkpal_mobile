@@ -1,17 +1,24 @@
-import 'package:bulkpal_mobile/models/meal_model.dart';
+import 'package:bulkpal_mobile/models/meal_model_api.dart';
+import 'package:bulkpal_mobile/services/meal_api_service.dart';
 
-class MealRepository {} //separates data logic from UI.
+class MealRepository {
+  final MealApiService _mealApiService;
 
-final List<MealModel> _meals = [];
+  MealRepository(this._mealApiService);
 
-void addMeal(MealModel meal) {
-  _meals.add(meal);
-}
+  Future<List<MealApiModel>> SearchMeals(String Query) async {
+    return await _mealApiService.SearchMeals(Query);
+  }
 
-void removeMeal(MealModel meal) {
-  _meals.remove(meal);
-}
+  Future<List<String>> GetCategories() async {
+    return await _mealApiService.GetCategories();
+  }
 
-List<MealModel> _getMeals() {
-  return _meals;
+  Future<List<MealApiModel>> GetMealsByCategory(String Category) async {
+    return await _mealApiService.GetMealsByCategory(Category);
+  }
+
+  Future<MealApiModel?> GetMealById(String MealId) async {
+    return await _mealApiService.GetMealById(MealId);
+  }
 }
